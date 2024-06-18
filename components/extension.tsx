@@ -18,7 +18,30 @@ export default function Extension() {
         extensionVideoId
     } = useExtension()
 
+    // load video id from youtube and fetch video data
+    useEffect(() => {
+        // getting videoID
+        const getVideoId = () => {
+            return new URLSearchParams(window.location.search).get("v")
+        }
 
+        const fetchVideoData = async () => {
+            const id = getVideoId()
+            if (id && id !== extensionVideoId) {
+                setExtensionVideoId(id)
+                setExtensionLoading(true)
+                const data = await getVideoData(id)
+                console.log("VideoID", data)
+                setExtensionData(data)
+                setExtensionLoading(false)
+
+            }
+        }
+        fetchVideoData()
+        const intervalId = setInterval(fetchVideoData, 2000)
+        return () => clearInterval(intervalId)
+
+    }, [extensionVideoId])
 
     useEffect(() => {
         console.log("Fetches Theme ")
