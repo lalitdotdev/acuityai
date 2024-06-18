@@ -5,6 +5,7 @@ import type {
 } from "plasmo"
 
 import Extension from "@/components/extension"
+import Providers from "@/components/provider"
 import cssText from "data-text:~style.css"
 
 const INJECTED_ELEMENT_ID = "#secondary.style-scope.ytd-watch-flexy"
@@ -47,7 +48,9 @@ export const getShadowHostId: PlasmoGetShadowHostId = () => "plasmo-inline"
 
 function MainUI() {
     return (
-        <Extension />
+        <Providers>
+            <Extension />
+        </Providers>
     )
 }
 
