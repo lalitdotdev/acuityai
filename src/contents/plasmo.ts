@@ -1,7 +1,9 @@
 import type { PlasmoCSConfig } from "plasmo"
 
+const INJECTED_ELEMENT_ID = "#secondary.style-scope.ytd-watch-flexy"
+
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*"]
+  matches: ["https://www.youtube.com/*"]
 }
 
 window.addEventListener("load", () => {
