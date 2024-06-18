@@ -19,6 +19,22 @@ export default function Extension() {
     } = useExtension()
 
 
+
+    useEffect(() => {
+        console.log("Fetches Theme ")
+        const getCssVariable = (name: string) => {
+            const rootStyle = getComputedStyle(document.documentElement)
+            return rootStyle.getPropertyValue(name).trim()
+        }
+        const backgroundColor = getCssVariable("--yt-spec-base-background")
+
+        if (backgroundColor === "#fff") {
+            setExtensionTheme("light")
+        } else {
+            setExtensionTheme("dark")
+        }
+    }, [])
+
     if (!extensionTheme) return null
 
     return (
