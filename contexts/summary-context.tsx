@@ -66,6 +66,15 @@ export function SummaryProvider({ children }: SummaryProviderProps) {
         setSummaryIsError(false)
     }, [extensionLoading])
 
+    useEffect(() => {
+        if (port.data?.message !== undefined && port.data.isEnd === false) {
+            setSummaryContent(port.data.message)
+        } else {
+            setSummaryIsGenerating(false)
+        }
+
+        setSummaryIsError(false)
+    }, [port.data?.message])
 
 
     const value = {
