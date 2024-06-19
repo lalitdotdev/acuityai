@@ -76,6 +76,14 @@ export function SummaryProvider({ children }: SummaryProviderProps) {
         setSummaryIsError(false)
     }, [port.data?.message])
 
+    useEffect(() => {
+        if (port.data?.error !== undefined && port.data?.error !== null) {
+            setSummaryIsError(true)
+            setSummaryContent(null)
+        } else {
+            setSummaryIsError(false)
+        }
+    }, [port.data?.error])
 
     const value = {
         summaryModel,
