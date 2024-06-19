@@ -61,4 +61,22 @@ export function SummaryProvider({ children }: SummaryProviderProps) {
     }
 
 
+
+    const value = {
+        summaryModel,
+        setSummaryContent,
+        setSummaryModel,
+        summaryContent,
+        summaryPrompt,
+        setSummaryPrompt,
+        summaryIsError,
+        setSummaryIsError,
+        summaryIsGenerating,
+        setSummaryIsGenerating,
+        generateSummary
+    }
+
+    return (
+        <SummaryContext.Provider value={value}>{children}</SummaryContext.Provider>
+    )
 }
