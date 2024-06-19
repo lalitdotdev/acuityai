@@ -60,6 +60,12 @@ export function SummaryProvider({ children }: SummaryProviderProps) {
         })
     }
 
+    useEffect(() => {
+        setSummaryContent(null)
+        setSummaryIsGenerating(false)
+        setSummaryIsError(false)
+    }, [extensionLoading])
+
 
 
     const value = {
