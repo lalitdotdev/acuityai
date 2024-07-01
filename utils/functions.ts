@@ -25,7 +25,6 @@ export async function getVideoData(id: string) {
     const pageData = await fetch(`https://www.youtube.com/watch?v=${id}`)
     const body = await pageData.text()
     const playerResponseMatch = body.match(YT_INITIAL_PLAYER_RESPONSE_RE)
-    console.log(playerResponseMatch)
     if (!playerResponseMatch) {
       console.warn("Unable to parse playerResponse")
       return
@@ -40,7 +39,6 @@ export async function getVideoData(id: string) {
     views: player.videoDetails.viewCount
   }
 
-  //   doing
   if (player.captions && player.captions.playerCaptionsTracklistRenderer) {
     const tracks = player.captions.playerCaptionsTracklistRenderer.captionTracks
     if (tracks && tracks.length > 0) {
@@ -52,4 +50,45 @@ export async function getVideoData(id: string) {
   }
 
   return { metadata, transcript: null }
+}
+
+// function to clean the json transcript and split it into chunks of 300 characters or less to send to the model for summarization
+export function cleanJsonTranscipt(transcript) {
+  const chunks = []
+
+  let currentChunk = ""
+  let currentStartTime = transcript.events[0].tStartMs // start time of the first event
+  let currentEndTime = currentStartTime // end time of the last event
+
+  transcript.events.forEach((event) => {
+    // loop through each event in the transcript
+    event.segs?.forEach((seg) => {
+      const segmentText = seg.utf8.replace(/\n/g, " ") // replace newlines with spaces
+      currentEndTime = event.tStartMs + (seg.tOffsetMs || 0) // calculate the end time of the current segment
+      if ((currentChunk + segmentText).length > 300) {
+        // if the current chunk + the segment text is greater than 300 characters
+        chunks.push({
+          text: currentChunk.trim(),
+          startTime: currentStartTime,
+          endTime: currentEndTime
+        })
+        currentChunk = segmentText
+        currentStartTime = currentEndTime
+      } else {
+        currentChunk += segmentText
+      }
+    })
+  })
+
+  // if there is still a chunk left
+  if (currentChunk) {
+    chunks.push({
+      text: currentChunk.trim(),
+      startTime: currentStartTime,
+      endTime: currentEndTime
+    })
+  }
+
+  // return the chunks array
+  return chunks
 }
