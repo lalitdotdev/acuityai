@@ -1,4 +1,4 @@
-import { BarChartIcon, RocketIcon } from "@radix-ui/react-icons"
+import { BarChartIcon } from "@radix-ui/react-icons"
 
 export type Model = {
     value: string
@@ -14,12 +14,19 @@ export type Prompt = {
 }
 
 export const models: Model[] = [
+    // {
+    //     value: "default",
+    //     label: "GPT-4-TURBO",
+    //     content: "gpt-4-turbo",
+    //     icon: <BarChartIcon className="h-4 w-4 opacity-70" />
+    // },
     {
         value: "default",
         label: "GPT-3.5",
         content: "gpt-3.5-turbo",
-        icon: <RocketIcon className="h-4 w-4 opacity-70" />
+        icon: <BarChartIcon className="h-4 w-4 opacity-70" />
     },
+
     {
         value: "GPT-4",
         label: "GPT-4",
@@ -68,5 +75,11 @@ export const prompts: Prompt[] = [
         content: "Give me a summary of this video"
     }
 ]
+
+export type Transcript = {
+    text: string
+    startTime: number
+    endTime: number
+}
 
 
