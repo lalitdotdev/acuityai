@@ -43,3 +43,9 @@ function TranscriptList({ transcript, searchInput }: TranscriptListProps) {
     )
 }
 
+export default memo(TranscriptList, (prevProps, nextProps) => {
+    return (
+        prevProps.transcript === nextProps.transcript &&
+        prevProps.searchInput === nextProps.searchInput
+    )
+})
